@@ -2,6 +2,11 @@
 #include <windows.h>
 #include <cstdlib>
 #include <conio.h>
+#include <time.h>
+#define MINX 2 
+#define MINY 2 
+#define MAXX 35 
+#define MAXY 20 
 using namespace std;
 void gotoxy( int column, int line );
 struct Point{
@@ -45,7 +50,16 @@ public:
         }
     }
 };
-
+void VeKhung(){ 
+    for (int i = MINX; i <= MAXX; i++){
+        for (int j = MINY; j <= MAXY; j++){
+            if (i == MINX || i == MAXX || j == MINY || j == MAXY){
+                gotoxy(i, j);
+                cout << "+";
+            }
+        }
+    }
+}
 int main()
 {
     CONRAN r;
@@ -64,15 +78,25 @@ int main()
             if (t=='s') Huong = 1;
         }
         system("cls");
+        VeKhung();
         r.Ve(Qua);
         r.DiChuyen(Huong, Qua);
+          // Kiểm tra đụng tường 
+        if (r.A[0].x <= MINX || r.A[0].x >= MAXX ||
+            r.A[0].y <= MINY || r.A[0].y >= MAXY)
+        {
+            system("cls"); 
+            gotoxy(10,10); 
+            cout << "===== YOU LOST ====="; 
+            gotoxy(10,12); 
+            cout << "Press any key to exit..."; 
+            getch(); 
+            break;
+        }
         Sleep(300);
     }
-
     return 0;
 }
-
-
 void gotoxy( int column, int line )
   {
   COORD coord;
